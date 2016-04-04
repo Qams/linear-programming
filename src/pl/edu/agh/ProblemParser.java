@@ -15,6 +15,7 @@ public class ProblemParser {
     private JSONArray arr;
     private final JSONReader reader;
 
+
     public ProblemParser(String path, String out)
     {
         this.path = path;
@@ -64,7 +65,20 @@ public class ProblemParser {
                 pw.print("\"x" + j + "\": \"" + val + "\", ");
 
             }
-            pw.print("\"s\": \"" + obj.getJSONObject("sign").getString("x"+i) + "\", ");
+            if(obj.getJSONObject("dest").get("val").equals("min"))
+            {
+                String strToWrite = null;
+                if(obj.getJSONObject("sign").getString("x"+i).equals(">="))
+                    strToWrite = "<=";
+                else if(obj.getJSONObject("sign").getString("x"+i).equals("<="))
+                    strToWrite = ">=";
+                else
+                    strToWrite = "=";
+                pw.print("\"s\": \"" + strToWrite + "\", ");
+            }
+            else{
+                pw.print("\"s\": \"" + obj.getJSONObject("sign").getString("x"+i) + "\", ");
+            }
             pw.print("\"v\": \"" + obj.getJSONObject("dest").getString("x"+i) + "\"}");
             if(i < obj.getInt("count"))
                 pw.println(",");
@@ -92,7 +106,19 @@ public class ProblemParser {
         pw.print("      \"sign\":{");
         for(int i=1;i<=arr.length();i++)
         {
-            pw.print("\"x"+i +"\": \"" + arr.getJSONObject(i-1).getString("s") + "\"");
+            if(obj.getJSONObject("dest").get("val").equals("max")) {
+                String strToWrite = null;
+                if (arr.getJSONObject(i - 1).getString("s").equals("<=")) {
+                    strToWrite = ">=";
+                } else if (arr.getJSONObject(i - 1).getString("s").equals(">=")) {
+                    strToWrite = "<=";
+                } else {
+                    strToWrite = "=";
+                }
+                pw.print("\"x" + i + "\": \"" + strToWrite + "\"");
+            }
+            else
+                pw.print("\"x"+i +"\": \"" + arr.getJSONObject(i-1).getString("s") + "\"");
             if(i<arr.length())
                 pw.print(",");
         }

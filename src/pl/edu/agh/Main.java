@@ -5,7 +5,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        ProblemParser problemParser = new ProblemParser("pp.json", "output.json");
+        ProblemParser problemParser = new ProblemParser("output.json", "third.json");
         problemParser.generateJSONDualProblem();
 
     }
