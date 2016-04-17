@@ -15,7 +15,6 @@ public class ProblemParser {
     private JSONArray arr;
     private final JSONReader reader;
 
-
     public ProblemParser(String path, String out)
     {
         this.path = path;
